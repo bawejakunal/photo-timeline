@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>12,623 Photos Clicked — Lightroom Monthly Histogram (2014–2026)</title>
-  <meta name="description" content="Interactive monthly histogram of 12,623 photos from a Lightroom Classic catalog spanning Apr 2014 to Oct 2026, filterable by year, camera, and culling status." />
-
+  <title>18,855 Photos Clicked — Camera, Phone &amp; Meta Glasses Timeline (2011–2026)</title>
+  <meta name="description" content="Interactive monthly histogram of 18,855 unique photos across Lightroom Classic and Google Photos (2011–2026), filterable by source, device, year, and culling status." />
   <link rel="canonical" href="https://bawejakunal.github.io/photo-timeline/" />
 
   <!-- Open Graph / Twitter Card -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bawejakunal.github.io/photo-timeline/" />
-  <meta property="og:title" content="12,623 Photos Clicked, Month by Month (2014–2026)" />
-  <meta property="og:description" content="Interactive Lightroom Classic catalog timeline across 75 active months — filter by year, camera, or rejected flags." />
+  <meta property="og:title" content="18,855 Photos Clicked, Month by Month (Lightroom + Google Photos)" />
+  <meta property="og:description" content="Interactive 15-year photo timeline: 12,317 camera shots, 6,105 phone shots, and 433 Ray-Ban Meta Glasses shots — filter by year, source, or device." />
   <meta property="og:image" content="https://bawejakunal.github.io/photo-timeline/preview.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="3200" />
   <meta property="og:image:height" content="1800" />
-  <meta property="og:image:alt" content="Dark-themed monthly bar chart of 12,623 photos from a Lightroom Classic catalog spanning April 2014 to October 2026, showing peak month October 2019 (829), Canon 600D and 6D Mark II eras, and kept vs rejected breakdown." />
+  <meta property="og:image:alt" content="Dark-themed stacked monthly bar chart of 18,855 deduplicated photos from Lightroom Classic and Google Photos, split by Dedicated Camera (12,317), Phone (6,105), and Ray-Ban Meta Smart Glasses (433), with peak month October 2019 (839)." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="12,623 Photos Clicked, Month by Month (2014–2026)" />
-  <meta name="twitter:description" content="Interactive Lightroom Classic catalog timeline across 75 active months — filter by year, camera, or rejected flags." />
+  <meta name="twitter:title" content="18,855 Photos Clicked, Month by Month (Lightroom + Google Photos)" />
+  <meta name="twitter:description" content="Interactive 15-year photo timeline: 12,317 camera shots, 6,105 phone shots, and 433 Ray-Ban Meta Glasses shots." />
   <meta name="twitter:image" content="https://bawejakunal.github.io/photo-timeline/preview.png" />
-  <meta name="twitter:image:alt" content="Dark-themed monthly bar chart of 12,623 photos from a Lightroom Classic catalog spanning April 2014 to October 2026, showing peak month October 2019 (829), Canon 600D and 6D Mark II eras, and kept vs rejected breakdown." />
+  <meta name="twitter:image:alt" content="Dark-themed stacked monthly bar chart of 18,855 deduplicated photos from Lightroom Classic and Google Photos, split by Dedicated Camera (12,317), Phone (6,105), and Ray-Ban Meta Smart Glasses (433)." />
 
   <style>
     :root,
     [data-theme="dark"] {
       --bg: #0d1117;
       --bg-glow-1: rgba(56, 189, 248, 0.08);
-      --bg-glow-2: rgba(245, 158, 11, 0.05);
+      --bg-glow-2: rgba(52, 211, 153, 0.06);
       --surface: #161b22;
       --surface-2: #1c222b;
       --border: #262c36;
@@ -37,20 +36,24 @@
       --fg: #f0f6fc;
       --fg-secondary: #c9d1d9;
       --muted: #8b949e;
+      --cam: #38bdf8;
+      --cam-deep: #0284c7;
+      --phone: #34d399;
+      --phone-deep: #059669;
+      --glasses: #c4b5fd;
+      --glasses-deep: #8b5cf6;
       --accent: #38bdf8;
-      --accent-deep: #0284c7;
       --accent-fg: #08121c;
-      --rej: #fbbf24;
-      --rej-alpha: 0.6;
+      --cutoff: #fbbf24;
+      --cutoff-bg: rgba(245, 158, 11, 0.045);
       --hover-col: rgba(240, 246, 252, 0.07);
-      --gap-col: rgba(255, 255, 255, 0.025);
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     }
 
     [data-theme="light"] {
       --bg: #f6f8fa;
       --bg-glow-1: rgba(2, 132, 199, 0.06);
-      --bg-glow-2: rgba(217, 119, 6, 0.04);
+      --bg-glow-2: rgba(5, 150, 105, 0.05);
       --surface: #ffffff;
       --surface-2: #f1f5f9;
       --border: #d8dee4;
@@ -58,21 +61,21 @@
       --fg: #0f172a;
       --fg-secondary: #334155;
       --muted: #64748b;
+      --cam: #0284c7;
+      --cam-deep: #0369a1;
+      --phone: #10b981;
+      --phone-deep: #047857;
+      --glasses: #8b5cf6;
+      --glasses-deep: #6d28d9;
       --accent: #0284c7;
-      --accent-deep: #0369a1;
       --accent-fg: #ffffff;
-      --rej: #d97706;
-      --rej-alpha: 0.55;
+      --cutoff: #b45309;
+      --cutoff-bg: rgba(217, 119, 6, 0.055);
       --hover-col: rgba(15, 23, 42, 0.06);
-      --gap-col: rgba(15, 23, 42, 0.025);
       --shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
@@ -88,10 +91,7 @@
       padding: 32px 20px 48px;
     }
 
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1100px; margin: 0 auto; }
 
     .header {
       display: flex;
@@ -124,12 +124,6 @@
       color: var(--muted);
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .icon-btn {
       display: inline-flex;
       align-items: center;
@@ -144,11 +138,7 @@
       cursor: pointer;
       transition: border-color 120ms ease, color 120ms ease;
     }
-
-    .icon-btn:hover {
-      border-color: var(--accent);
-      color: var(--fg);
-    }
+    .icon-btn:hover { border-color: var(--accent); color: var(--fg); }
 
     .card {
       background: var(--surface);
@@ -194,11 +184,7 @@
       cursor: pointer;
       transition: background-color 120ms ease, color 120ms ease;
     }
-
-    .seg-btn.active {
-      background: var(--accent);
-      color: var(--accent-fg);
-    }
+    .seg-btn.active { background: var(--accent); color: var(--accent-fg); }
 
     select {
       background: var(--surface-2);
@@ -210,10 +196,7 @@
       cursor: pointer;
       outline: none;
     }
-
-    select:focus {
-      border-color: var(--accent);
-    }
+    select:focus { border-color: var(--accent); }
 
     .pill-btn {
       background: var(--surface-2);
@@ -225,15 +208,9 @@
       font-weight: 500;
       cursor: pointer;
     }
+    .pill-btn:hover { border-color: var(--accent); color: var(--fg); }
 
-    .pill-btn:hover {
-      border-color: var(--accent);
-      color: var(--fg);
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     .check-label {
       display: inline-flex;
@@ -245,13 +222,7 @@
       user-select: none;
       padding: 4px 2px;
     }
-
-    .check-label input {
-      accent-color: var(--accent);
-      width: 15px;
-      height: 15px;
-      cursor: pointer;
-    }
+    .check-label input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
 
     .stats {
       display: grid;
@@ -260,13 +231,7 @@
       padding: 14px 0;
       border-bottom: 1px solid var(--grid);
     }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
+    .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
     .stat-value {
       font-size: 20px;
       font-weight: 700;
@@ -280,16 +245,11 @@
     .chart-wrap {
       position: relative;
       width: 100%;
-      height: 360px;
+      height: 375px;
       margin-top: 12px;
       touch-action: pan-y;
     }
-
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+    canvas { display: block; width: 100%; height: 100%; }
 
     .tooltip {
       position: absolute;
@@ -300,28 +260,29 @@
       border-radius: 10px;
       padding: 10px 12px;
       font-size: 13px;
-      min-width: 180px;
-      max-width: 250px;
+      min-width: 195px;
+      max-width: 265px;
       box-shadow: var(--shadow);
     }
-
-    .tt-title {
-      font-weight: 700;
-      color: var(--fg);
-    }
-
-    .tt-main {
-      margin-top: 2px;
-      font-weight: 600;
-      color: var(--fg);
-    }
-
-    .tt-split {
-      margin-top: 2px;
+    .tt-title { font-weight: 700; color: var(--fg); }
+    .tt-main { margin-top: 2px; font-weight: 600; color: var(--fg); }
+    .tt-cats {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
       font-size: 12px;
-      color: var(--muted);
+      color: var(--fg-secondary);
     }
-
+    .tt-cat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .tt-cat-label { display: inline-flex; align-items: center; gap: 6px; }
+    .tt-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+    .tt-rej { margin-top: 4px; font-size: 11.5px; color: var(--muted); }
     .tt-cams {
       margin-top: 7px;
       padding-top: 7px;
@@ -332,30 +293,10 @@
       font-size: 12px;
       color: var(--muted);
     }
-
-    .tt-cam-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .tt-cam-row span:first-child {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .tt-cam-row span:last-child {
-      color: var(--fg);
-      font-weight: 600;
-    }
-
-    .tt-hint {
-      margin-top: 6px;
-      font-size: 12px;
-      color: var(--accent);
-      font-weight: 500;
-    }
+    .tt-cam-row { display: flex; justify-content: space-between; gap: 12px; }
+    .tt-cam-row span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tt-cam-row span:last-child { color: var(--fg); font-weight: 600; }
+    .tt-hint { margin-top: 6px; font-size: 12px; color: var(--accent); font-weight: 500; }
 
     .footer {
       display: flex;
@@ -369,31 +310,12 @@
       font-size: 12.5px;
       color: var(--muted);
     }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .leg-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--fg-secondary);
-      font-weight: 500;
-    }
-
-    .swatch {
-      width: 11px;
-      height: 11px;
-      border-radius: 3px;
-      display: inline-block;
-    }
-
-    .swatch-kept { background: var(--accent); }
-    .swatch-rej { background: var(--rej); opacity: var(--rej-alpha); }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+    .leg-item { display: inline-flex; align-items: center; gap: 7px; color: var(--fg-secondary); font-weight: 500; }
+    .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+    .sw-cam { background: var(--cam); }
+    .sw-phone { background: var(--phone); }
+    .sw-glasses { background: var(--glasses); }
 
     .footnote {
       margin-top: 14px;
@@ -405,12 +327,12 @@
       gap: 8px;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 720px) {
       body { padding: 18px 12px 32px; }
       .card { padding: 14px 14px 12px; border-radius: 14px; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .stat-value { font-size: 17px; }
-      .chart-wrap { height: 290px; }
+      .chart-wrap { height: 300px; }
     }
   </style>
 </head>
@@ -418,13 +340,11 @@
   <main class="container">
     <header class="header">
       <div>
-        <div class="kicker">Lightroom Classic Catalog · Apr 2014 – Oct 2026</div>
-        <h1>12,623 Photos Clicked, Month by Month</h1>
-        <p class="subtitle">Interactive capture timeline across 75 active months — filter by year, camera, or rejected flags.</p>
+        <div class="kicker">Lightroom Classic + Google Photos · Deduplicated Timeline</div>
+        <h1>18,855 Photos Clicked, Month by Month</h1>
+        <p class="subtitle">Dedicated cameras, phones, and Ray-Ban Meta Smart Glasses across 15 years — filter by source, device, or year.</p>
       </div>
-      <div class="header-actions">
-        <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle color theme">☀ Light</button>
-      </div>
+      <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle color theme">☀ Light</button>
     </header>
 
     <section class="card" aria-label="Monthly photo histogram">
@@ -438,20 +358,27 @@
 
           <div id="yearWrap" class="ctrl-group">
             <select id="yearSelect" aria-label="Filter by year">
-              <option value="all">All years (2014–2026)</option>
+              <option value="all2011">All years (2011–2026)</option>
+              <option value="all">2014–2026 (active span)</option>
             </select>
             <button id="resetYearBtn" class="pill-btn hidden" type="button">← All years</button>
           </div>
         </div>
 
         <div class="ctrl-group">
-          <select id="cameraSelect" aria-label="Filter by camera">
-            <option value="all">All cameras</option>
+          <select id="sourceSelect" aria-label="Filter by source">
+            <option value="all">All sources (LR + Google Photos)</option>
+            <option value="lr">Lightroom Classic only</option>
+            <option value="gp">Google Photos only (to Sep '25)</option>
           </select>
 
-          <label class="check-label">
+          <select id="deviceSelect" aria-label="Filter by device">
+            <option value="all">All devices</option>
+          </select>
+
+          <label class="check-label" title="Exclude 2,522 photos flagged Rejected (X) in Lightroom">
             <input id="hideRejected" type="checkbox" />
-            <span>Exclude rejected</span>
+            <span>Exclude LR rejected</span>
           </label>
         </div>
       </div>
@@ -480,7 +407,8 @@
         <div id="tooltip" class="tooltip hidden">
           <div id="ttTitle" class="tt-title"></div>
           <div id="ttMain" class="tt-main"></div>
-          <div id="ttSplit" class="tt-split"></div>
+          <div id="ttCats" class="tt-cats"></div>
+          <div id="ttRej" class="tt-rej"></div>
           <div id="ttCams" class="tt-cams"></div>
           <div id="ttHint" class="tt-hint"></div>
         </div>
@@ -488,37 +416,59 @@
 
       <div class="footer">
         <div class="legend">
-          <span class="leg-item"><span class="swatch swatch-kept"></span><span id="legendKept">Kept / unflagged</span></span>
-          <span id="legendRejWrap" class="leg-item"><span class="swatch swatch-rej"></span><span>Rejected (X)</span></span>
+          <span class="leg-item"><span class="swatch sw-cam"></span>Dedicated Camera</span>
+          <span class="leg-item"><span class="swatch sw-phone"></span>Phone</span>
+          <span class="leg-item"><span class="swatch sw-glasses"></span>Ray-Ban Meta Glasses</span>
         </div>
         <div id="footerHint">Hover or tap bars for breakdown · Click any year to zoom in</div>
       </div>
     </section>
 
     <div class="footnote">
-      <span>Unique stills only (excludes 99 virtual copies &amp; 5 videos from 12,727 total catalog entries).</span>
-      <span>Built from <code>Lightroom Catalog-v12.lrcat</code> SQLite metadata.</span>
+      <span>Unique stills only: 12,623 Lightroom Classic (to Oct 2026) + 6,232 deduplicated Google Photos Takeout (to Sep 13, 2025).</span>
+      <span>Excludes videos, screenshots, WhatsApp/social saves, auto-compositions, RAW+JPG &amp; Lightroom export duplicates.</span>
     </div>
   </main>
 
   <script>
-    const RAW_DATA = [{"ym":"2014-04","cam":"NIKON D90","t":1,"r":0},{"ym":"2014-11","cam":"Canon EOS 550D","t":1,"r":0},{"ym":"2015-07","cam":"Canon EOS 600D","t":56,"r":0},{"ym":"2015-08","cam":"Canon EOS 600D","t":21,"r":0},{"ym":"2015-09","cam":"Canon EOS 600D","t":423,"r":0},{"ym":"2015-10","cam":"Unknown","t":13,"r":0},{"ym":"2015-11","cam":"Canon EOS 600D","t":224,"r":0},{"ym":"2015-12","cam":"Canon EOS 600D","t":85,"r":0},{"ym":"2015-12","cam":"Unknown","t":12,"r":0},{"ym":"2016-01","cam":"Canon EOS 600D","t":339,"r":0},{"ym":"2016-02","cam":"Canon EOS 600D","t":450,"r":0},{"ym":"2016-03","cam":"Canon EOS 600D","t":121,"r":0},{"ym":"2016-03","cam":"DSC-W830","t":13,"r":0},{"ym":"2016-04","cam":"Canon EOS 600D","t":522,"r":0},{"ym":"2016-04","cam":"Unknown","t":6,"r":0},{"ym":"2016-04","cam":"DSC-W830","t":4,"r":0},{"ym":"2016-05","cam":"Canon EOS 600D","t":39,"r":0},{"ym":"2016-05","cam":"DSC-W830","t":8,"r":0},{"ym":"2016-06","cam":"DSC-W830","t":1,"r":0},{"ym":"2016-07","cam":"DSC-W830","t":74,"r":0},{"ym":"2016-07","cam":"Canon EOS 600D","t":1,"r":0},{"ym":"2016-08","cam":"Canon EOS 600D","t":86,"r":0},{"ym":"2016-09","cam":"Canon EOS 600D","t":237,"r":0},{"ym":"2016-11","cam":"Canon EOS 600D","t":34,"r":0},{"ym":"2016-12","cam":"Canon EOS 600D","t":22,"r":0},{"ym":"2017-01","cam":"Canon EOS 600D","t":49,"r":0},{"ym":"2017-06","cam":"Canon EOS 600D","t":98,"r":0},{"ym":"2017-07","cam":"Canon EOS 600D","t":55,"r":0},{"ym":"2017-08","cam":"Canon EOS 600D","t":24,"r":0},{"ym":"2017-08","cam":"Nexus 5X","t":1,"r":0},{"ym":"2017-09","cam":"Canon EOS 600D","t":13,"r":0},{"ym":"2017-09","cam":"Nexus 6P","t":4,"r":0},{"ym":"2017-12","cam":"Canon EOS 600D","t":89,"r":0},{"ym":"2018-01","cam":"Canon EOS 600D","t":111,"r":0},{"ym":"2018-02","cam":"Canon EOS 600D","t":43,"r":0},{"ym":"2018-03","cam":"Canon EOS 600D","t":28,"r":0},{"ym":"2018-04","cam":"Canon EOS 600D","t":209,"r":0},{"ym":"2018-04","cam":"SM-G950U","t":2,"r":0},{"ym":"2018-05","cam":"Canon EOS 600D","t":415,"r":0},{"ym":"2018-06","cam":"Canon EOS 600D","t":88,"r":0},{"ym":"2018-07","cam":"Canon EOS 600D","t":6,"r":0},{"ym":"2018-07","cam":"Canon EOS 6D Mark II","t":2,"r":0},{"ym":"2018-08","cam":"Canon EOS 6D Mark II","t":155,"r":0},{"ym":"2018-09","cam":"ILCE-7RM3","t":347,"r":0},{"ym":"2018-09","cam":"Canon EOS 6D Mark II","t":157,"r":0},{"ym":"2018-10","cam":"Canon EOS 6D Mark II","t":730,"r":0},{"ym":"2018-12","cam":"Canon EOS 6D Mark II","t":314,"r":0},{"ym":"2019-01","cam":"Canon EOS 6D Mark II","t":31,"r":0},{"ym":"2019-03","cam":"Canon EOS 6D Mark II","t":153,"r":0},{"ym":"2019-04","cam":"Canon EOS 6D Mark II","t":74,"r":0},{"ym":"2019-05","cam":"Canon EOS 6D Mark II","t":297,"r":0},{"ym":"2019-07","cam":"Canon EOS 6D Mark II","t":120,"r":0},{"ym":"2019-08","cam":"Canon EOS 6D Mark II","t":96,"r":0},{"ym":"2019-10","cam":"Canon EOS 6D Mark II","t":828,"r":0},{"ym":"2019-10","cam":"Unknown","t":1,"r":0},{"ym":"2020-01","cam":"Canon EOS 6D Mark II","t":308,"r":0},{"ym":"2020-02","cam":"Canon EOS 6D Mark II","t":64,"r":0},{"ym":"2020-03","cam":"Canon EOS 6D Mark II","t":617,"r":0},{"ym":"2020-09","cam":"Canon EOS 6D Mark II","t":89,"r":25},{"ym":"2020-11","cam":"Canon EOS 6D Mark II","t":38,"r":0},{"ym":"2020-12","cam":"Canon EOS 6D Mark II","t":42,"r":27},{"ym":"2021-01","cam":"Canon EOS 6D Mark II","t":12,"r":12},{"ym":"2021-03","cam":"Canon EOS 6D Mark II","t":8,"r":4},{"ym":"2021-04","cam":"Canon EOS 6D Mark II","t":45,"r":34},{"ym":"2021-05","cam":"Canon EOS 6D Mark II","t":221,"r":107},{"ym":"2021-06","cam":"Canon EOS 6D Mark II","t":89,"r":24},{"ym":"2021-08","cam":"Canon EOS 6D Mark II","t":24,"r":15},{"ym":"2021-10","cam":"Canon EOS 6D Mark II","t":118,"r":107},{"ym":"2021-11","cam":"Canon EOS 6D Mark II","t":606,"r":326},{"ym":"2021-12","cam":"Canon EOS 6D Mark II","t":21,"r":12},{"ym":"2022-02","cam":"Canon EOS 6D Mark II","t":213,"r":86},{"ym":"2022-04","cam":"Canon EOS 6D Mark II","t":30,"r":0},{"ym":"2022-05","cam":"Pixel 6","t":229,"r":99},{"ym":"2022-06","cam":"Canon EOS 6D Mark II","t":306,"r":286},{"ym":"2022-09","cam":"Canon EOS 6D Mark II","t":462,"r":290},{"ym":"2022-09","cam":"Pixel 6","t":60,"r":22},{"ym":"2022-09","cam":"SM-G960U1","t":3,"r":0},{"ym":"2022-12","cam":"Canon EOS 6D Mark II","t":7,"r":2},{"ym":"2024-08","cam":"Canon EOS 6D Mark II","t":127,"r":0},{"ym":"2024-10","cam":"Canon EOS 6D Mark II","t":335,"r":304},{"ym":"2024-11","cam":"Canon EOS 6D Mark II","t":203,"r":92},{"ym":"2024-12","cam":"Canon EOS 6D Mark II","t":20,"r":9},{"ym":"2026-02","cam":"Canon EOS 6D Mark II","t":402,"r":393},{"ym":"2026-03","cam":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-04","cam":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-05","cam":"Canon EOS 6D Mark II","t":313,"r":244},{"ym":"2026-05","cam":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-07","cam":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-09","cam":"Canon EOS 6D Mark II","t":44,"r":2},{"ym":"2026-10","cam":"Canon EOS 6D Mark II","t":226,"r":0},{"ym":"2026-10","cam":"Pixel 11 Pro","t":4,"r":0}];
+    const RAW_DATA = [{"ym":"2011-10","s":"gp","k":"phone","c":"X2-00","t":1,"r":0},{"ym":"2011-11","s":"gp","k":"phone","c":"X2-00","t":1,"r":0},{"ym":"2013-12","s":"gp","k":"phone","c":"C1904","t":2,"r":0},{"ym":"2014-03","s":"gp","k":"phone","c":"C1904","t":1,"r":0},{"ym":"2014-04","s":"gp","k":"phone","c":"C1904","t":3,"r":0},{"ym":"2014-04","s":"lr","k":"camera","c":"NIKON D90","t":1,"r":0},{"ym":"2014-05","s":"gp","k":"phone","c":"C1904","t":5,"r":0},{"ym":"2014-06","s":"gp","k":"phone","c":"C1904","t":2,"r":0},{"ym":"2014-07","s":"gp","k":"phone","c":"C1904","t":2,"r":0},{"ym":"2014-11","s":"lr","k":"camera","c":"Canon EOS 550D","t":1,"r":0},{"ym":"2015-02","s":"gp","k":"camera","c":"Canon EOS 600D","t":1,"r":0},{"ym":"2015-02","s":"gp","k":"phone","c":"C1904","t":1,"r":0},{"ym":"2015-04","s":"gp","k":"phone","c":"C1904","t":3,"r":0},{"ym":"2015-05","s":"gp","k":"phone","c":"C1904","t":3,"r":0},{"ym":"2015-06","s":"gp","k":"phone","c":"C1904","t":8,"r":0},{"ym":"2015-07","s":"gp","k":"phone","c":"PadFone","t":6,"r":0},{"ym":"2015-07","s":"lr","k":"camera","c":"Canon EOS 600D","t":56,"r":0},{"ym":"2015-08","s":"gp","k":"phone","c":"PadFone","t":6,"r":0},{"ym":"2015-08","s":"lr","k":"camera","c":"Canon EOS 600D","t":21,"r":0},{"ym":"2015-09","s":"gp","k":"phone","c":"PadFone","t":11,"r":0},{"ym":"2015-09","s":"lr","k":"camera","c":"Canon EOS 600D","t":423,"r":0},{"ym":"2015-10","s":"lr","k":"camera","c":"Unknown","t":13,"r":0},{"ym":"2015-11","s":"lr","k":"camera","c":"Canon EOS 600D","t":224,"r":0},{"ym":"2015-12","s":"lr","k":"camera","c":"Canon EOS 600D","t":85,"r":0},{"ym":"2015-12","s":"lr","k":"camera","c":"Unknown","t":12,"r":0},{"ym":"2016-01","s":"lr","k":"camera","c":"Canon EOS 600D","t":339,"r":0},{"ym":"2016-02","s":"lr","k":"camera","c":"Canon EOS 600D","t":450,"r":0},{"ym":"2016-03","s":"lr","k":"camera","c":"Canon EOS 600D","t":121,"r":0},{"ym":"2016-03","s":"lr","k":"camera","c":"DSC-W830","t":13,"r":0},{"ym":"2016-04","s":"lr","k":"camera","c":"Canon EOS 600D","t":522,"r":0},{"ym":"2016-04","s":"lr","k":"camera","c":"DSC-W830","t":4,"r":0},{"ym":"2016-04","s":"lr","k":"camera","c":"Unknown","t":6,"r":0},{"ym":"2016-05","s":"lr","k":"camera","c":"Canon EOS 600D","t":39,"r":0},{"ym":"2016-05","s":"lr","k":"camera","c":"DSC-W830","t":8,"r":0},{"ym":"2016-06","s":"lr","k":"camera","c":"DSC-W830","t":1,"r":0},{"ym":"2016-07","s":"lr","k":"camera","c":"Canon EOS 600D","t":1,"r":0},{"ym":"2016-07","s":"lr","k":"camera","c":"DSC-W830","t":74,"r":0},{"ym":"2016-08","s":"gp","k":"phone","c":"Nexus 5X","t":35,"r":0},{"ym":"2016-08","s":"gp","k":"phone","c":"PadFone","t":6,"r":0},{"ym":"2016-08","s":"lr","k":"camera","c":"Canon EOS 600D","t":86,"r":0},{"ym":"2016-09","s":"gp","k":"phone","c":"Nexus 5X","t":38,"r":0},{"ym":"2016-09","s":"lr","k":"camera","c":"Canon EOS 600D","t":237,"r":0},{"ym":"2016-10","s":"gp","k":"phone","c":"Nexus 5X","t":6,"r":0},{"ym":"2016-11","s":"gp","k":"phone","c":"Nexus 5X","t":14,"r":0},{"ym":"2016-11","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2016-11","s":"lr","k":"camera","c":"Canon EOS 600D","t":34,"r":0},{"ym":"2016-12","s":"gp","k":"phone","c":"Nexus 5X","t":28,"r":0},{"ym":"2016-12","s":"lr","k":"camera","c":"Canon EOS 600D","t":22,"r":0},{"ym":"2017-01","s":"gp","k":"phone","c":"Nexus 5X","t":76,"r":0},{"ym":"2017-01","s":"gp","k":"phone","c":"Unknown","t":7,"r":0},{"ym":"2017-01","s":"lr","k":"camera","c":"Canon EOS 600D","t":49,"r":0},{"ym":"2017-02","s":"gp","k":"phone","c":"Nexus 5X","t":7,"r":0},{"ym":"2017-03","s":"gp","k":"phone","c":"Nexus 5X","t":12,"r":0},{"ym":"2017-04","s":"gp","k":"phone","c":"Nexus 5X","t":7,"r":0},{"ym":"2017-06","s":"gp","k":"phone","c":"Nexus 5X","t":13,"r":0},{"ym":"2017-06","s":"lr","k":"camera","c":"Canon EOS 600D","t":98,"r":0},{"ym":"2017-07","s":"gp","k":"phone","c":"Nexus 5X","t":14,"r":0},{"ym":"2017-07","s":"lr","k":"camera","c":"Canon EOS 600D","t":55,"r":0},{"ym":"2017-08","s":"gp","k":"phone","c":"Nexus 5X","t":52,"r":0},{"ym":"2017-08","s":"lr","k":"camera","c":"Canon EOS 600D","t":24,"r":0},{"ym":"2017-08","s":"lr","k":"phone","c":"Nexus 5X","t":1,"r":0},{"ym":"2017-09","s":"gp","k":"phone","c":"Nexus 5X","t":20,"r":0},{"ym":"2017-09","s":"lr","k":"camera","c":"Canon EOS 600D","t":13,"r":0},{"ym":"2017-09","s":"lr","k":"phone","c":"Nexus 6P","t":4,"r":0},{"ym":"2017-10","s":"gp","k":"phone","c":"Nexus 5X","t":4,"r":0},{"ym":"2017-11","s":"gp","k":"phone","c":"Nexus 5X","t":11,"r":0},{"ym":"2017-12","s":"gp","k":"phone","c":"Nexus 5X","t":19,"r":0},{"ym":"2017-12","s":"lr","k":"camera","c":"Canon EOS 600D","t":89,"r":0},{"ym":"2018-01","s":"gp","k":"phone","c":"Nexus 5X","t":32,"r":0},{"ym":"2018-01","s":"gp","k":"phone","c":"Unknown","t":2,"r":0},{"ym":"2018-01","s":"lr","k":"camera","c":"Canon EOS 600D","t":111,"r":0},{"ym":"2018-02","s":"gp","k":"phone","c":"Nexus 5X","t":11,"r":0},{"ym":"2018-02","s":"lr","k":"camera","c":"Canon EOS 600D","t":43,"r":0},{"ym":"2018-03","s":"gp","k":"phone","c":"Nexus 5X","t":38,"r":0},{"ym":"2018-03","s":"lr","k":"camera","c":"Canon EOS 600D","t":28,"r":0},{"ym":"2018-04","s":"gp","k":"phone","c":"Nexus 5X","t":10,"r":0},{"ym":"2018-04","s":"lr","k":"camera","c":"Canon EOS 600D","t":209,"r":0},{"ym":"2018-04","s":"lr","k":"phone","c":"SM-G950U","t":2,"r":0},{"ym":"2018-05","s":"gp","k":"phone","c":"Nexus 5X","t":58,"r":0},{"ym":"2018-05","s":"lr","k":"camera","c":"Canon EOS 600D","t":415,"r":0},{"ym":"2018-06","s":"gp","k":"phone","c":"Nexus 5X","t":18,"r":0},{"ym":"2018-06","s":"lr","k":"camera","c":"Canon EOS 600D","t":88,"r":0},{"ym":"2018-07","s":"gp","k":"phone","c":"Nexus 5X","t":30,"r":0},{"ym":"2018-07","s":"lr","k":"camera","c":"Canon EOS 600D","t":6,"r":0},{"ym":"2018-07","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":2,"r":0},{"ym":"2018-08","s":"gp","k":"phone","c":"Nexus 5X","t":12,"r":0},{"ym":"2018-08","s":"gp","k":"phone","c":"moto g(6)","t":20,"r":0},{"ym":"2018-08","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":155,"r":0},{"ym":"2018-09","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2018-09","s":"gp","k":"phone","c":"moto g(6)","t":13,"r":0},{"ym":"2018-09","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":157,"r":0},{"ym":"2018-09","s":"lr","k":"camera","c":"ILCE-7RM3","t":347,"r":0},{"ym":"2018-10","s":"gp","k":"phone","c":"moto g(6)","t":22,"r":0},{"ym":"2018-10","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":730,"r":0},{"ym":"2018-11","s":"gp","k":"phone","c":"Pixel 3","t":18,"r":0},{"ym":"2018-11","s":"gp","k":"phone","c":"moto g(6)","t":2,"r":0},{"ym":"2018-12","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2018-12","s":"gp","k":"phone","c":"moto g(6)","t":11,"r":0},{"ym":"2018-12","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":314,"r":0},{"ym":"2019-01","s":"gp","k":"phone","c":"moto g(6)","t":13,"r":0},{"ym":"2019-01","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":31,"r":0},{"ym":"2019-02","s":"gp","k":"phone","c":"moto g(6)","t":13,"r":0},{"ym":"2019-03","s":"gp","k":"phone","c":"moto g(6)","t":20,"r":0},{"ym":"2019-03","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":153,"r":0},{"ym":"2019-04","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2019-04","s":"gp","k":"phone","c":"moto g(6)","t":38,"r":0},{"ym":"2019-04","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":74,"r":0},{"ym":"2019-05","s":"gp","k":"phone","c":"moto g(6)","t":20,"r":0},{"ym":"2019-05","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":297,"r":0},{"ym":"2019-06","s":"gp","k":"phone","c":"moto g(6)","t":21,"r":0},{"ym":"2019-07","s":"gp","k":"phone","c":"moto g(6)","t":8,"r":0},{"ym":"2019-07","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":120,"r":0},{"ym":"2019-08","s":"gp","k":"phone","c":"moto g(6)","t":21,"r":0},{"ym":"2019-08","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":96,"r":0},{"ym":"2019-09","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2019-09","s":"gp","k":"phone","c":"moto g(6)","t":5,"r":0},{"ym":"2019-10","s":"gp","k":"phone","c":"moto g(6)","t":10,"r":0},{"ym":"2019-10","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":828,"r":0},{"ym":"2019-10","s":"lr","k":"camera","c":"Unknown","t":1,"r":0},{"ym":"2019-11","s":"gp","k":"phone","c":"moto g(6)","t":15,"r":0},{"ym":"2019-12","s":"gp","k":"phone","c":"Pixel 3a","t":61,"r":0},{"ym":"2019-12","s":"gp","k":"phone","c":"moto g(6)","t":1,"r":0},{"ym":"2020-01","s":"gp","k":"phone","c":"Pixel 3a","t":205,"r":0},{"ym":"2020-01","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":308,"r":0},{"ym":"2020-02","s":"gp","k":"phone","c":"Pixel 3a","t":20,"r":0},{"ym":"2020-02","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":64,"r":0},{"ym":"2020-03","s":"gp","k":"phone","c":"Pixel 3a","t":15,"r":0},{"ym":"2020-03","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":617,"r":0},{"ym":"2020-04","s":"gp","k":"phone","c":"Pixel 3a","t":11,"r":0},{"ym":"2020-05","s":"gp","k":"phone","c":"Pixel 3a","t":9,"r":0},{"ym":"2020-06","s":"gp","k":"phone","c":"Pixel 3a","t":51,"r":0},{"ym":"2020-07","s":"gp","k":"phone","c":"Pixel 3a","t":9,"r":0},{"ym":"2020-08","s":"gp","k":"phone","c":"Pixel 3a","t":17,"r":0},{"ym":"2020-09","s":"gp","k":"phone","c":"Pixel 3a","t":18,"r":0},{"ym":"2020-09","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":89,"r":25},{"ym":"2020-10","s":"gp","k":"phone","c":"Pixel 3a","t":30,"r":0},{"ym":"2020-11","s":"gp","k":"phone","c":"Pixel 3a","t":18,"r":0},{"ym":"2020-11","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":38,"r":0},{"ym":"2020-12","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":17,"r":0},{"ym":"2020-12","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":42,"r":27},{"ym":"2021-01","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":10,"r":0},{"ym":"2021-01","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":12,"r":12},{"ym":"2021-02","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":15,"r":0},{"ym":"2021-03","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":16,"r":0},{"ym":"2021-03","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":8,"r":4},{"ym":"2021-04","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":42,"r":0},{"ym":"2021-04","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":45,"r":34},{"ym":"2021-05","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":68,"r":0},{"ym":"2021-05","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":221,"r":107},{"ym":"2021-06","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":43,"r":0},{"ym":"2021-06","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":89,"r":24},{"ym":"2021-07","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":24,"r":0},{"ym":"2021-07","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2021-08","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":21,"r":0},{"ym":"2021-08","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":24,"r":15},{"ym":"2021-09","s":"gp","k":"phone","c":"Pixel 4a (5G)","t":2,"r":0},{"ym":"2021-09","s":"gp","k":"phone","c":"Pixel 5a","t":23,"r":0},{"ym":"2021-10","s":"gp","k":"phone","c":"Pixel 5a","t":35,"r":0},{"ym":"2021-10","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":118,"r":107},{"ym":"2021-11","s":"gp","k":"phone","c":"Pixel 5a","t":132,"r":0},{"ym":"2021-11","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":606,"r":326},{"ym":"2021-12","s":"gp","k":"phone","c":"Pixel 5a","t":60,"r":0},{"ym":"2021-12","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":21,"r":12},{"ym":"2022-01","s":"gp","k":"phone","c":"Pixel 5a","t":22,"r":0},{"ym":"2022-01","s":"gp","k":"phone","c":"Pixel 6","t":4,"r":0},{"ym":"2022-02","s":"gp","k":"phone","c":"Pixel 6","t":102,"r":0},{"ym":"2022-02","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":213,"r":86},{"ym":"2022-03","s":"gp","k":"phone","c":"Pixel 6","t":35,"r":0},{"ym":"2022-04","s":"gp","k":"phone","c":"Pixel 6","t":78,"r":0},{"ym":"2022-04","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":30,"r":0},{"ym":"2022-05","s":"gp","k":"phone","c":"Pixel 6","t":65,"r":0},{"ym":"2022-05","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2022-05","s":"lr","k":"phone","c":"Pixel 6","t":229,"r":99},{"ym":"2022-06","s":"gp","k":"phone","c":"Pixel 6","t":40,"r":0},{"ym":"2022-06","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":306,"r":286},{"ym":"2022-07","s":"gp","k":"phone","c":"Pixel 6","t":107,"r":0},{"ym":"2022-08","s":"gp","k":"phone","c":"Pixel 6","t":85,"r":0},{"ym":"2022-08","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2022-09","s":"gp","k":"phone","c":"Pixel 6","t":67,"r":0},{"ym":"2022-09","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":462,"r":290},{"ym":"2022-09","s":"lr","k":"phone","c":"Pixel 6","t":60,"r":22},{"ym":"2022-09","s":"lr","k":"phone","c":"SM-G960U1","t":3,"r":0},{"ym":"2022-10","s":"gp","k":"phone","c":"Pixel 6","t":270,"r":0},{"ym":"2022-11","s":"gp","k":"phone","c":"Pixel 6","t":111,"r":0},{"ym":"2022-12","s":"gp","k":"phone","c":"Pixel 6","t":89,"r":0},{"ym":"2022-12","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":7,"r":2},{"ym":"2023-01","s":"gp","k":"phone","c":"Pixel 6","t":35,"r":0},{"ym":"2023-02","s":"gp","k":"phone","c":"Pixel 6","t":137,"r":0},{"ym":"2023-02","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2023-03","s":"gp","k":"phone","c":"Pixel 6","t":99,"r":0},{"ym":"2023-04","s":"gp","k":"phone","c":"Pixel 6","t":41,"r":0},{"ym":"2023-05","s":"gp","k":"phone","c":"Pixel 6","t":60,"r":0},{"ym":"2023-06","s":"gp","k":"phone","c":"Galaxy S23 Ultra","t":1,"r":0},{"ym":"2023-06","s":"gp","k":"phone","c":"Pixel 6","t":77,"r":0},{"ym":"2023-07","s":"gp","k":"phone","c":"Pixel 6","t":62,"r":0},{"ym":"2023-08","s":"gp","k":"phone","c":"Pixel 6","t":108,"r":0},{"ym":"2023-08","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2023-09","s":"gp","k":"phone","c":"Pixel 6","t":97,"r":0},{"ym":"2023-09","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2023-10","s":"gp","k":"phone","c":"Pixel 6","t":126,"r":0},{"ym":"2023-11","s":"gp","k":"phone","c":"Pixel 6","t":174,"r":0},{"ym":"2023-12","s":"gp","k":"phone","c":"Pixel 6","t":44,"r":0},{"ym":"2024-01","s":"gp","k":"phone","c":"Pixel 6","t":35,"r":0},{"ym":"2024-02","s":"gp","k":"phone","c":"Pixel 6","t":29,"r":0},{"ym":"2024-03","s":"gp","k":"phone","c":"Pixel 6","t":48,"r":0},{"ym":"2024-04","s":"gp","k":"phone","c":"Pixel 6","t":36,"r":0},{"ym":"2024-05","s":"gp","k":"phone","c":"Pixel 6","t":50,"r":0},{"ym":"2024-05","s":"gp","k":"phone","c":"Unknown","t":1,"r":0},{"ym":"2024-06","s":"gp","k":"phone","c":"Pixel 6","t":21,"r":0},{"ym":"2024-07","s":"gp","k":"phone","c":"Pixel 6","t":43,"r":0},{"ym":"2024-08","s":"gp","k":"phone","c":"Pixel 6","t":165,"r":0},{"ym":"2024-08","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":127,"r":0},{"ym":"2024-09","s":"gp","k":"phone","c":"Pixel 6","t":3,"r":0},{"ym":"2024-09","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":85,"r":0},{"ym":"2024-10","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":49,"r":0},{"ym":"2024-10","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":335,"r":304},{"ym":"2024-11","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":80,"r":0},{"ym":"2024-11","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":203,"r":92},{"ym":"2024-12","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":13,"r":0},{"ym":"2024-12","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":91,"r":0},{"ym":"2024-12","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":20,"r":9},{"ym":"2025-01","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":1,"r":0},{"ym":"2025-01","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":59,"r":0},{"ym":"2025-02","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":72,"r":0},{"ym":"2025-02","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":208,"r":0},{"ym":"2025-03","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":135,"r":0},{"ym":"2025-03","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":192,"r":0},{"ym":"2025-04","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":73,"r":0},{"ym":"2025-04","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":120,"r":0},{"ym":"2025-05","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":118,"r":0},{"ym":"2025-05","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":185,"r":0},{"ym":"2025-06","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":35,"r":0},{"ym":"2025-07","s":"gp","k":"glasses","c":"Ray-Ban Meta Smart Glasses","t":21,"r":0},{"ym":"2025-07","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":126,"r":0},{"ym":"2025-08","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":68,"r":0},{"ym":"2025-09","s":"gp","k":"phone","c":"Pixel 9 Pro XL","t":44,"r":0},{"ym":"2026-02","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":402,"r":393},{"ym":"2026-03","s":"lr","k":"phone","c":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-04","s":"lr","k":"phone","c":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-05","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":313,"r":244},{"ym":"2026-05","s":"lr","k":"phone","c":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-07","s":"lr","k":"phone","c":"Pixel 9 Pro XL","t":1,"r":0},{"ym":"2026-09","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":44,"r":2},{"ym":"2026-10","s":"lr","k":"camera","c":"Canon EOS 6D Mark II","t":226,"r":0},{"ym":"2026-10","s":"lr","k":"phone","c":"Pixel 11 Pro","t":4,"r":0}];
 
     const CAM_LABELS = {
       "ILCE-7RM3": "Sony α7R III",
       "DSC-W830": "Sony DSC-W830",
+      "C1904": "Sony Xperia M",
+      "PadFone": "ASUS PadFone",
+      "moto g(6)": "Moto G6",
+      "X2-00": "Nokia X2-00",
       "SM-G960U1": "Galaxy S9",
       "SM-G950U": "Galaxy S8",
+      "Ray-Ban Meta Smart Glasses": "Ray-Ban Meta Glasses",
       "Unknown": "Unknown / No EXIF"
     };
-    const MAJOR_CAMS = ["Canon EOS 6D Mark II", "Canon EOS 600D", "ILCE-7RM3", "Pixel 6", "DSC-W830"];
+
+    const TOP_MODELS = [
+      "Canon EOS 6D Mark II",
+      "Canon EOS 600D",
+      "Pixel 6",
+      "Pixel 9 Pro XL",
+      "Nexus 5X",
+      "Pixel 3a",
+      "Ray-Ban Meta Smart Glasses",
+      "ILCE-7RM3",
+      "Pixel 5a",
+      "Pixel 4a (5G)",
+      "moto g(6)",
+      "DSC-W830"
+    ];
+
     const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const MONTHS_FULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     const state = {
       view: "monthly",
-      year: "all",
-      camera: "all",
+      year: "all2011",   // "all2011" (2011-2026) | "all" (2014-2026) | "2011".."2026"
+      source: "all",     // "all" | "lr" | "gp"
+      device: "all",     // "all" | "cat:camera" | "cat:phone" | "cat:glasses" | model | "__other__"
       hideRejected: false,
       hoverIdx: -1
     };
@@ -530,7 +480,8 @@
     const yearSelect = document.getElementById("yearSelect");
     const yearWrap = document.getElementById("yearWrap");
     const resetYearBtn = document.getElementById("resetYearBtn");
-    const cameraSelect = document.getElementById("cameraSelect");
+    const sourceSelect = document.getElementById("sourceSelect");
+    const deviceSelect = document.getElementById("deviceSelect");
     const hideRejectedEl = document.getElementById("hideRejected");
     const themeBtn = document.getElementById("themeBtn");
 
@@ -540,39 +491,87 @@
     const fmtCam = (raw) => CAM_LABELS[raw] || raw;
     const fmtNum = (n) => n.toLocaleString("en-US");
 
-    // Populate dropdowns
-    for (let y = 2014; y <= 2026; y++) {
+    // Populate year dropdown (2011–2026)
+    for (let y = 2026; y >= 2011; y--) {
+      if (y === 2012) continue; // no photos in 2012
       const opt = document.createElement("option");
       opt.value = String(y);
       opt.textContent = String(y);
       yearSelect.appendChild(opt);
     }
 
-    const camTotals = new Map();
-    for (const row of RAW_DATA) {
-      camTotals.set(row.cam, (camTotals.get(row.cam) || 0) + row.t);
+    // Populate device dropdown with category & top model optgroups
+    const catCounts = { camera: 0, phone: 0, glasses: 0 };
+    const modelCounts = new Map();
+    for (const r of RAW_DATA) {
+      catCounts[r.k] = (catCounts[r.k] || 0) + r.t;
+      modelCounts.set(r.c, (modelCounts.get(r.c) || 0) + r.t);
     }
-    for (const c of MAJOR_CAMS) {
+
+    const catGroup = document.createElement("optgroup");
+    catGroup.label = "By Category";
+    for (const [k, label] of [
+      ["camera", "Dedicated Cameras"],
+      ["phone", "Phones"],
+      ["glasses", "Ray-Ban Meta Glasses"]
+    ]) {
       const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = `${fmtCam(c)} (${fmtNum(camTotals.get(c) || 0)})`;
-      cameraSelect.appendChild(opt);
+      opt.value = `cat:${k}`;
+      opt.textContent = `${label} (${fmtNum(catCounts[k])})`;
+      catGroup.appendChild(opt);
+    }
+    deviceSelect.appendChild(catGroup);
+
+    const modGroup = document.createElement("optgroup");
+    modGroup.label = "By Device Model";
+    for (const m of TOP_MODELS) {
+      const cnt = modelCounts.get(m) || 0;
+      if (!cnt) continue;
+      const opt = document.createElement("option");
+      opt.value = m;
+      opt.textContent = `${fmtCam(m)} (${fmtNum(cnt)})`;
+      modGroup.appendChild(opt);
     }
     let otherTotal = 0;
-    for (const [c, cnt] of camTotals.entries()) {
-      if (!MAJOR_CAMS.includes(c)) otherTotal += cnt;
+    for (const [m, cnt] of modelCounts.entries()) {
+      if (!TOP_MODELS.includes(m)) otherTotal += cnt;
     }
     const otherOpt = document.createElement("option");
     otherOpt.value = "__other__";
     otherOpt.textContent = `Other / Unknown (${fmtNum(otherTotal)})`;
-    cameraSelect.appendChild(otherOpt);
+    modGroup.appendChild(otherOpt);
+    deviceSelect.appendChild(modGroup);
 
     function filterRows() {
       return RAW_DATA.filter((row) => {
-        if (state.camera === "all") return true;
-        if (state.camera === "__other__") return !MAJOR_CAMS.includes(row.cam);
-        return row.cam === state.camera;
+        if (state.source !== "all" && row.s !== state.source) return false;
+        if (state.device !== "all") {
+          if (state.device.startsWith("cat:")) {
+            if (row.k !== state.device.slice(4)) return false;
+          } else if (state.device === "__other__") {
+            if (TOP_MODELS.includes(row.c)) return false;
+          } else if (row.c !== state.device) {
+            return false;
+          }
+        }
+        return true;
       });
+    }
+
+    function rowCount(r) {
+      return state.hideRejected ? (r.t - r.r) : r.t;
+    }
+
+    function makeEmptyAgg() {
+      return { camera: 0, phone: 0, glasses: 0, rejected: 0, cams: new Map() };
+    }
+
+    function addToAgg(agg, r) {
+      const cnt = rowCount(r);
+      if (cnt <= 0) return;
+      agg[r.k] += cnt;
+      if (!state.hideRejected && r.r > 0) agg.rejected += r.r;
+      agg.cams.set(r.c, (agg.cams.get(r.c) || 0) + cnt);
     }
 
     function buildBuckets() {
@@ -582,42 +581,41 @@
       if (state.view === "monthly") {
         const map = new Map();
         for (const r of rows) {
-          if (state.year !== "all" && !r.ym.startsWith(state.year + "-")) continue;
+          if (state.year !== "all" && state.year !== "all2011" && !r.ym.startsWith(state.year + "-")) continue;
           let b = map.get(r.ym);
-          if (!b) {
-            b = { total: 0, rejected: 0, cams: new Map() };
-            map.set(r.ym, b);
-          }
-          b.total += r.t;
-          b.rejected += r.r;
-          const cnt = state.hideRejected ? (r.t - r.r) : r.t;
-          if (cnt > 0) b.cams.set(r.cam, (b.cams.get(r.cam) || 0) + cnt);
+          if (!b) { b = makeEmptyAgg(); map.set(r.ym, b); }
+          addToAgg(b, r);
         }
 
-        let startY = 2014, startM = 4, endY = 2026, endM = 10;
-        if (state.year !== "all") {
+        let startY = 2014, startM = 1, endY = 2026, endM = 10;
+        if (state.year === "all2011") {
+          startY = state.source === "lr" ? 2014 : 2011;
+          startM = state.source === "lr" ? 4 : 10;
+          if (state.source === "gp") { endY = 2025; endM = 9; }
+        } else if (state.year === "all") {
+          if (state.source === "gp") { endY = 2025; endM = 9; }
+        } else {
           startY = endY = Number(state.year);
-          startM = 1;
-          endM = 12;
+          startM = 1; endM = 12;
         }
+
         let y = startY, m = startM;
         while (y < endY || (y === endY && m <= endM)) {
           const ym = `${y}-${String(m).padStart(2, "0")}`;
-          const found = map.get(ym);
-          const total = found ? found.total : 0;
-          const rejected = found ? found.rejected : 0;
-          const kept = total - rejected;
+          const f = map.get(ym) || makeEmptyAgg();
+          const val = f.camera + f.phone + f.glasses;
           buckets.push({
             key: ym,
             year: y,
             month: m,
-            shortLabel: state.year === "all" ? (m === 1 ? String(y) : "") : MONTHS_SHORT[m - 1],
+            shortLabel: (state.year === "all" || state.year === "all2011") ? (m === 1 ? String(y) : "") : MONTHS_SHORT[m - 1],
             fullLabel: `${MONTHS_SHORT[m - 1]} ${y}`,
-            total,
-            kept,
-            rejected,
-            value: state.hideRejected ? kept : total,
-            cams: found ? found.cams : new Map(),
+            camera: f.camera,
+            phone: f.phone,
+            glasses: f.glasses,
+            rejected: f.rejected,
+            value: val,
+            cams: f.cams,
             isYearStart: m === 1
           });
           m++;
@@ -628,30 +626,24 @@
         for (const r of rows) {
           const yr = Number(r.ym.slice(0, 4));
           let b = map.get(yr);
-          if (!b) {
-            b = { total: 0, rejected: 0, cams: new Map() };
-            map.set(yr, b);
-          }
-          b.total += r.t;
-          b.rejected += r.r;
-          const cnt = state.hideRejected ? (r.t - r.r) : r.t;
-          if (cnt > 0) b.cams.set(r.cam, (b.cams.get(r.cam) || 0) + cnt);
+          if (!b) { b = makeEmptyAgg(); map.set(yr, b); }
+          addToAgg(b, r);
         }
-        for (let y = 2014; y <= 2026; y++) {
-          const found = map.get(y);
-          const total = found ? found.total : 0;
-          const rejected = found ? found.rejected : 0;
-          const kept = total - rejected;
+        const startY = (state.source === "lr") ? 2014 : 2011;
+        const endY = (state.source === "gp") ? 2025 : 2026;
+        for (let y = startY; y <= endY; y++) {
+          const f = map.get(y) || makeEmptyAgg();
           buckets.push({
             key: String(y),
             year: y,
             shortLabel: String(y),
             fullLabel: `Year ${y}`,
-            total,
-            kept,
-            rejected,
-            value: state.hideRejected ? kept : total,
-            cams: found ? found.cams : new Map()
+            camera: f.camera,
+            phone: f.phone,
+            glasses: f.glasses,
+            rejected: f.rejected,
+            value: f.camera + f.phone + f.glasses,
+            cams: f.cams
           });
         }
       } else {
@@ -659,30 +651,22 @@
         for (const r of rows) {
           const mo = Number(r.ym.slice(5, 7));
           let b = map.get(mo);
-          if (!b) {
-            b = { total: 0, rejected: 0, cams: new Map() };
-            map.set(mo, b);
-          }
-          b.total += r.t;
-          b.rejected += r.r;
-          const cnt = state.hideRejected ? (r.t - r.r) : r.t;
-          if (cnt > 0) b.cams.set(r.cam, (b.cams.get(r.cam) || 0) + cnt);
+          if (!b) { b = makeEmptyAgg(); map.set(mo, b); }
+          addToAgg(b, r);
         }
         for (let m = 1; m <= 12; m++) {
-          const found = map.get(m);
-          const total = found ? found.total : 0;
-          const rejected = found ? found.rejected : 0;
-          const kept = total - rejected;
+          const f = map.get(m) || makeEmptyAgg();
           buckets.push({
             key: String(m).padStart(2, "0"),
             month: m,
             shortLabel: MONTHS_SHORT[m - 1],
             fullLabel: `${MONTHS_FULL[m - 1]} (all years)`,
-            total,
-            kept,
-            rejected,
-            value: state.hideRejected ? kept : total,
-            cams: found ? found.cams : new Map()
+            camera: f.camera,
+            phone: f.phone,
+            glasses: f.glasses,
+            rejected: f.rejected,
+            value: f.camera + f.phone + f.glasses,
+            cams: f.cams
           });
         }
       }
@@ -698,12 +682,15 @@
         muted: g("--muted"),
         grid: g("--grid"),
         border: g("--border"),
-        accent: g("--accent"),
-        accentDeep: g("--accent-deep"),
-        rej: g("--rej"),
-        rejAlpha: parseFloat(g("--rej-alpha")) || 0.6,
-        hoverCol: g("--hover-col"),
-        gapCol: g("--gap-col")
+        cam: g("--cam"),
+        camDeep: g("--cam-deep"),
+        phone: g("--phone"),
+        phoneDeep: g("--phone-deep"),
+        glasses: g("--glasses"),
+        glassesDeep: g("--glasses-deep"),
+        cutoff: g("--cutoff"),
+        cutoffBg: g("--cutoff-bg"),
+        hoverCol: g("--hover-col")
       };
     }
 
@@ -764,21 +751,19 @@
         btn.classList.toggle("active", btn.dataset.view === state.view);
       });
       const showYear = state.view === "monthly";
+      const isSingleYear = showYear && state.year !== "all" && state.year !== "all2011";
       yearWrap.classList.toggle("hidden", !showYear);
-      resetYearBtn.classList.toggle("hidden", !(showYear && state.year !== "all"));
-
-      document.getElementById("legendRejWrap").classList.toggle("hidden", state.hideRejected);
-      document.getElementById("legendKept").textContent = state.hideRejected ? "Kept photos" : "Kept / unflagged";
+      resetYearBtn.classList.toggle("hidden", !isSingleYear);
 
       const hint = document.getElementById("footerHint");
-      if (state.view === "monthly" && state.year === "all") {
+      if (state.view === "monthly" && !isSingleYear) {
         hint.textContent = "Hover or tap bars for details · Click any year to zoom in";
       } else if (state.view === "yearly") {
         hint.textContent = "Hover or tap bars · Click any year bar to inspect its months";
       } else if (state.view === "monthly") {
-        hint.textContent = `Showing Jan–Dec ${state.year} · Hover or tap bars for camera breakdown`;
+        hint.textContent = `Showing Jan–Dec ${state.year} · Hover or tap bars for device breakdown`;
       } else {
-        hint.textContent = "Totals summed across 2014–2026 by calendar month";
+        hint.textContent = "Totals summed across all years by calendar month";
       }
     }
 
@@ -797,7 +782,7 @@
       const c = getColors();
       const padLeft = 46;
       const padRight = 14;
-      const padTop = 24;
+      const padTop = 28;
       const padBottom = 30;
       const plotW = width - padLeft - padRight;
       const plotH = height - padTop - padBottom;
@@ -811,24 +796,17 @@
       const gap = isDense ? Math.max(0.8, slotW * 0.22) : Math.min(18, slotW * 0.3);
       const barW = Math.max(1.8, slotW - gap);
 
-      // Shade 2023 & 2025 gap years in full monthly view
-      if (state.view === "monthly" && state.year === "all") {
-        const spans = new Map();
-        for (let i = 0; i < n; i++) {
-          const yr = buckets[i].year;
-          if (!spans.has(yr)) spans.set(yr, { a: i, b: i });
-          else spans.get(yr).b = i;
-        }
-        ctx.fillStyle = c.gapCol;
-        for (const gy of [2023, 2025]) {
-          const sp = spans.get(gy);
-          if (sp) {
-            ctx.fillRect(padLeft + sp.a * slotW, padTop, (sp.b - sp.a + 1) * slotW, plotH);
-          }
-        }
+      // Highlight post-Takeout zone (Oct 2025 onward) when showing All sources in multi-year monthly view
+      const cutoffIdx = (state.view === "monthly" && state.source === "all" && state.device !== "cat:camera")
+        ? buckets.findIndex((b) => b.key === "2025-09")
+        : -1;
+      if (cutoffIdx >= 0 && cutoffIdx < n - 1) {
+        const cx = padLeft + (cutoffIdx + 1) * slotW;
+        ctx.fillStyle = c.cutoffBg;
+        ctx.fillRect(cx, padTop, width - padRight - cx, plotH);
       }
 
-      // Gridlines & Y labels
+      // Horizontal gridlines & Y labels
       ctx.font = "12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
       ctx.textBaseline = "middle";
       for (let i = 0; i <= ticks; i++) {
@@ -846,13 +824,13 @@
         ctx.fillText(val >= 1000 ? `${(val / 1000).toFixed(val % 1000 === 0 ? 0 : 1)}k` : String(val), padLeft - 8, y);
       }
 
-      // Year vertical dividers
-      if (state.view === "monthly" && state.year === "all") {
+      // Vertical year dividers
+      if (state.view === "monthly" && isDense) {
         ctx.save();
         ctx.strokeStyle = c.grid;
         ctx.setLineDash([3, 4]);
         ctx.lineWidth = 1;
-        for (let i = 0; i < n; i++) {
+        for (let i = 1; i < n; i++) {
           if (buckets[i].isYearStart) {
             const x = Math.round(padLeft + i * slotW) + 0.5;
             ctx.beginPath();
@@ -864,66 +842,86 @@
         ctx.restore();
       }
 
-      // Hover highlight column
+      // Takeout cutoff dashed line + label
+      if (cutoffIdx >= 0 && cutoffIdx < n - 1) {
+        const cx = Math.round(padLeft + (cutoffIdx + 1) * slotW) + 0.5;
+        ctx.save();
+        ctx.strokeStyle = c.cutoff;
+        ctx.globalAlpha = 0.7;
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(cx, padTop - 4);
+        ctx.lineTo(cx, padTop + plotH);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.font = "600 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        ctx.fillStyle = c.cutoff;
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(width < 520 ? "GP cutoff (Sep '25) →" : "Google Photos Takeout ends Sep '25 →", cx - 6, padTop - 6);
+        ctx.restore();
+      }
+
+      // Hover highlight
       if (state.hoverIdx >= 0 && state.hoverIdx < n) {
         ctx.fillStyle = c.hoverCol;
         ctx.fillRect(padLeft + state.hoverIdx * slotW, padTop, slotW, plotH);
       }
 
-      // Vertical bar gradient
-      const keptGrad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
-      keptGrad.addColorStop(0, c.accent);
-      keptGrad.addColorStop(1, c.accentDeep);
+      // Gradients
+      const camGrad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
+      camGrad.addColorStop(0, c.cam);
+      camGrad.addColorStop(1, c.camDeep);
 
-      // Draw bars
+      const phoneGrad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
+      phoneGrad.addColorStop(0, c.phone);
+      phoneGrad.addColorStop(1, c.phoneDeep);
+
+      const glassesGrad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
+      glassesGrad.addColorStop(0, c.glasses);
+      glassesGrad.addColorStop(1, c.glassesDeep);
+
+      // Draw stacked bars: Camera -> Phone -> Meta Glasses
       for (let i = 0; i < n; i++) {
         const b = buckets[i];
+        if (b.value <= 0) continue;
         const x = padLeft + i * slotW + (slotW - barW) / 2;
         const isHovered = i === state.hoverIdx;
 
-        if (b.value > 0) {
-          const totalH = (b.value / yMax) * plotH;
-          const keptH = (b.kept / yMax) * plotH;
-          const rejVal = state.hideRejected ? 0 : b.rejected;
-          const rejH = (rejVal / yMax) * plotH;
-
-          if (b.kept > 0) {
-            const kh = Math.max(2, keptH);
-            const ky = padTop + plotH - kh;
+        let curY = padTop + plotH;
+        const segs = [
+          [b.camera, camGrad],
+          [b.phone, phoneGrad],
+          [b.glasses, glassesGrad]
+        ];
+        for (const [val, grad] of segs) {
+          if (val <= 0) continue;
+          const h = Math.max(2, (val / yMax) * plotH);
+          const topY = Math.max(padTop, curY - h);
+          const ah = curY - topY;
+          if (ah > 0) {
             ctx.save();
-            ctx.fillStyle = keptGrad;
+            ctx.fillStyle = grad;
             ctx.globalAlpha = isHovered ? 1 : 0.9;
-            ctx.fillRect(x, ky, barW, kh);
+            ctx.fillRect(x, topY, barW, ah);
             ctx.restore();
+            curY = topY;
           }
+        }
 
-          if (rejVal > 0) {
-            const kh = b.kept > 0 ? Math.max(2, keptH) : 0;
-            const rh = Math.max(2, rejH);
-            const ry = Math.max(padTop, padTop + plotH - kh - rh);
-            const ah = (padTop + plotH - kh) - ry;
-            if (ah > 0) {
-              ctx.save();
-              ctx.fillStyle = c.rej;
-              ctx.globalAlpha = isHovered ? Math.min(1, c.rejAlpha + 0.25) : c.rejAlpha;
-              ctx.fillRect(x, ry, barW, ah);
-              ctx.restore();
-            }
-          }
+        if (isHovered) {
+          ctx.fillStyle = c.fg;
+          ctx.fillRect(x, Math.max(padTop, curY) - 2, barW, 2);
+        }
 
-          if (isHovered) {
-            const yCap = Math.max(padTop, padTop + plotH - Math.max(2, totalH));
-            ctx.fillStyle = c.fg;
-            ctx.fillRect(x, yCap - 2, barW, 2);
-          }
-
-          if (!isDense) {
-            const yTop = padTop + plotH - Math.max(2, totalH);
-            ctx.fillStyle = isHovered ? c.fg : c.muted;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "bottom";
-            ctx.fillText(fmtNum(b.value), x + barW / 2, Math.max(14, yTop - 5));
-          }
+        if (!isDense) {
+          ctx.fillStyle = isHovered ? c.fg : c.muted;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(fmtNum(b.value), x + barW / 2, Math.max(14, curY - 5));
         }
       }
 
@@ -931,25 +929,25 @@
       ctx.fillStyle = c.fgSec;
       ctx.textBaseline = "top";
       ctx.textAlign = "center";
-      if (state.view === "monthly" && state.year === "all") {
+      if (state.view === "monthly" && isDense) {
         const spans = new Map();
         for (let i = 0; i < n; i++) {
           const yr = buckets[i].year;
           if (!spans.has(yr)) spans.set(yr, { a: i, b: i });
           else spans.get(yr).b = i;
         }
-        const compact = width < 620;
-        const ultraCompact = width < 380;
-        let count = 0;
+        const compact = width < 660;
+        const ultraCompact = width < 400;
+        let idx = 0;
         for (const [yr, sp] of spans.entries()) {
-          if (ultraCompact && count % 2 === 1) { count++; continue; }
-          if (yr === 2014 && (sp.b - sp.a + 1) * slotW < 26) { count++; continue; }
+          if (ultraCompact && idx % 2 === 1) { idx++; continue; }
+          if ((sp.b - sp.a + 1) * slotW < 22) { idx++; continue; }
           const cx = padLeft + ((sp.a + sp.b + 1) / 2) * slotW;
           ctx.fillText(compact ? `'${String(yr).slice(2)}` : String(yr), cx, padTop + plotH + 9);
-          count++;
+          idx++;
         }
       } else {
-        const compact = width < 480 && state.view === "yearly";
+        const compact = width < 520 && state.view === "yearly";
         for (let i = 0; i < n; i++) {
           const cx = padLeft + (i + 0.5) * slotW;
           const lbl = compact ? `'${buckets[i].shortLabel.slice(2)}` : buckets[i].shortLabel;
@@ -969,19 +967,34 @@
       document.getElementById("ttTitle").textContent = b.fullLabel;
       document.getElementById("ttMain").textContent = `${fmtNum(b.value)} ${b.value === 1 ? "photo" : "photos"}`;
 
-      const splitEl = document.getElementById("ttSplit");
-      if (!state.hideRejected && b.rejected > 0) {
-        splitEl.textContent = `${fmtNum(b.kept)} kept · ${fmtNum(b.rejected)} rejected`;
-        splitEl.classList.remove("hidden");
+      const catsEl = document.getElementById("ttCats");
+      const catRows = [
+        ["Camera", b.camera, "var(--cam)"],
+        ["Phone", b.phone, "var(--phone)"],
+        ["Meta Glasses", b.glasses, "var(--glasses)"]
+      ].filter((x) => x[1] > 0);
+      if (catRows.length > 0) {
+        catsEl.innerHTML = catRows
+          .map(([lbl, cnt, col]) => `<div class="tt-cat-row"><span class="tt-cat-label"><span class="tt-dot" style="background:${col}"></span>${lbl}</span><span>${fmtNum(cnt)}</span></div>`)
+          .join("");
+        catsEl.classList.remove("hidden");
       } else {
-        splitEl.classList.add("hidden");
+        catsEl.classList.add("hidden");
+      }
+
+      const rejEl = document.getElementById("ttRej");
+      if (!state.hideRejected && b.rejected > 0) {
+        rejEl.textContent = `Includes ${fmtNum(b.rejected)} flagged rejected in Lightroom`;
+        rejEl.classList.remove("hidden");
+      } else {
+        rejEl.classList.add("hidden");
       }
 
       const camsEl = document.getElementById("ttCams");
       const sorted = [...b.cams.entries()].sort((a, d) => d[1] - a[1]);
       if (sorted.length > 0) {
         camsEl.innerHTML = sorted
-          .slice(0, 3)
+          .slice(0, 4)
           .map(([cam, cnt]) => `<div class="tt-cam-row"><span>${fmtCam(cam)}</span><span>${fmtNum(cnt)}</span></div>`)
           .join("");
         camsEl.classList.remove("hidden");
@@ -989,8 +1002,9 @@
         camsEl.classList.add("hidden");
       }
 
+      const isMultiMonthly = state.view === "monthly" && (state.year === "all" || state.year === "all2011");
       const hintEl = document.getElementById("ttHint");
-      if ((state.view === "monthly" && state.year === "all") || state.view === "yearly") {
+      if (isMultiMonthly || state.view === "yearly") {
         hintEl.textContent = `Click to inspect ${b.year}`;
         hintEl.classList.remove("hidden");
       } else {
@@ -1021,7 +1035,6 @@
       draw();
     }
 
-    // Controls
     document.querySelectorAll("[data-view]").forEach((btn) => {
       btn.addEventListener("click", () => {
         state.view = btn.dataset.view;
@@ -1035,13 +1048,18 @@
     });
 
     resetYearBtn.addEventListener("click", () => {
-      state.year = "all";
-      yearSelect.value = "all";
+      state.year = "all2011";
+      yearSelect.value = "all2011";
       refresh();
     });
 
-    cameraSelect.addEventListener("change", () => {
-      state.camera = cameraSelect.value;
+    sourceSelect.addEventListener("change", () => {
+      state.source = sourceSelect.value;
+      refresh();
+    });
+
+    deviceSelect.addEventListener("change", () => {
+      state.device = deviceSelect.value;
       refresh();
     });
 
@@ -1072,7 +1090,7 @@
     canvas.addEventListener("pointermove", (e) => {
       const idx = hitIndex(e.clientX, e.clientY);
       if (idx >= 0) {
-        const clickable = (state.view === "monthly" && state.year === "all") || state.view === "yearly";
+        const clickable = (state.view === "monthly" && (state.year === "all" || state.year === "all2011")) || state.view === "yearly";
         canvas.style.cursor = clickable ? "pointer" : "crosshair";
         if (state.hoverIdx !== idx) {
           state.hoverIdx = idx;
@@ -1102,7 +1120,6 @@
     canvas.addEventListener("click", (e) => {
       const idx = hitIndex(e.clientX, e.clientY);
       if (idx < 0) return;
-      // On touch devices, first tap selects/shows tooltip; second tap on same bar zooms
       if (e.pointerType === "touch" && state.hoverIdx !== idx) {
         state.hoverIdx = idx;
         draw();
@@ -1110,7 +1127,8 @@
         return;
       }
       const b = currentBuckets[idx];
-      if ((state.view === "monthly" && state.year === "all") || state.view === "yearly") {
+      const isMultiMonthly = state.view === "monthly" && (state.year === "all" || state.year === "all2011");
+      if (isMultiMonthly || state.view === "yearly") {
         state.view = "monthly";
         state.year = String(b.year);
         yearSelect.value = String(b.year);
